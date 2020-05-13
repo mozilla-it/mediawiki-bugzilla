@@ -279,14 +279,8 @@ class BugzillaRESTQuery extends BugzillaBaseQuery {
     public function _fetch_by_options() {
 
         // Add the requested query options to the request
-        $ua = MWHttpRequest::factory( $this->url . '?'
-                                           . $this->_build_querystring( $this->options ),
-                                           [
-                                               'method' => 'GET',
-                                               'follow_redirects' => true,
-                                               // TODO: Not sure if I should do this
-                                               'ssl_verify_peer' => false
-                                           ], __METHOD__ );
+        $ua = $this->getUA( 'GET', $this->url . '?' . http_build_query( $this->options ),
+							__METHOD__ );
 
         // The REST API requires these
         $ua->setHeader('Accept', 'application/json');
